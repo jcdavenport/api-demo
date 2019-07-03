@@ -32,20 +32,24 @@ $ docker exec -it gateway /bin/bash
 	# mkdir /opt/gateway 	
 	# npm install -g express-gateway
 	# eg gateway create
+	
+
+-> Copy gateway.config.yml file to gateway container:
+$ docker cp gateway_config/gateway.config.yml gateway:/opt/gateway/config
 
 
 -> change ownership of config file and start gateway:
-        $ docker exec -it gateway /bin/bash
-        # cd /opt/gateway/config
-        # chown root:root gateway.config.yml
-		# chmod 644 gateway.config.yml
-        # cd ..
-        # node .
-        # ctrl+z (pauses server)
-        # bg     (resumes server in background)
-        # ctrl+d (close connection while server continues to run)
-        
-		(Endpoint: http://localhost:8080/api/customer)
+$ docker exec -it gateway /bin/bash
+	# cd /opt/gateway/config
+	# chown root:root gateway.config.yml
+	# chmod 644 gateway.config.yml
+	# cd ..
+	# node .
+	# ctrl+z (pauses server)
+	# bg     (resumes server in background)
+	# ctrl+d (close connection while server continues to run)
+	
+	(Endpoint: http://localhost:8080/api/customer)
 
 
 *** The following is run on your localhost OS ***
