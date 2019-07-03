@@ -26,7 +26,7 @@ services:
       - "8080:8080"
     networks:
       - test-net
-    command: npm start
+    entrypoint: tail -f /dev/null
 
 networks:
   test-net:
