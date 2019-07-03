@@ -1,13 +1,15 @@
 #Setting up the demo
 
--> run demo containers in the background:
-$ docker-compose up -d
-
+-> Install docker-compose:
+$ sudo apt install docker-compose -y
 
 
 -> create a new test network(ip: 172.19.0.0/16):	
 $ docker network create --driver=bridge test-net
 
+
+-> run demo containers in the background:
+$ docker-compose up -d
 
 
 -> create a database for the service(docker cli):
@@ -25,6 +27,9 @@ mysql mysql -h172.19.0.2 -uroot -p
 
 -> Copy war service file into Tomcat:
 $ docker cp warfiles/SOAP_Customer.war customers:/app
+
+
+##  setup.sh stops here!  ##
 
 
 -> access shell within node container and create guts:
