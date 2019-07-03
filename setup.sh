@@ -2,7 +2,7 @@
 #setup.sh
 
 # Install docker-compose:
-sudo apt update && sudo apt install docker-compose -y
+sudo apt update && sudo apt install -y docker-compose 
 
 # create a new test network(ip: 172.19.0.0/16):
 docker network create --driver=bridge test-net
