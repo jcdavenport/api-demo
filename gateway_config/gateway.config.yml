@@ -16,8 +16,8 @@ serviceEndpoints:
   httpbinService:
     url: 'https://httpbin.org'
   customerService:
-    # docker br0 network
-    url: 'http://172.19.0.3:8080/SOAP_Customer/ws/customers'
+    # docker bridged network
+    url: 'http://172.19.0.4:8080/SOAP_Customer/ws/customers'
 policies:
   - basic-auth
   - cors
