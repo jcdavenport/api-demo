@@ -4,6 +4,8 @@
 # Install docker-compose:
 sudo apt update && sudo apt install -y docker-compose 
 
+sudo apt install -y docker-compose --fix-missing
+
 # change owner permissions for warfiles:
 sudo chown 1001:root warfiles/* && sudo chmod 644 warfiles/*
 
