@@ -1,36 +1,43 @@
 #Setting up the demo
 
--> Install docker-compose:
-$ sudo apt install docker-compose -y
+-> make setup.sh executable:
+$ sudo chmod +x setup.sh
 
+-> run the setup script
+$ ./setup.sh
 
--> create a new test network(ip: 172.19.0.0/16):	
-$ docker network create --driver=bridge test-net
-
-
--> run demo containers in the background:
-$ docker-compose up -d
-
-
--> create a database for the service(docker cli):
-(using mysql-admin console container)
-$ docker run -it --rm \
---name mysql-admin \
---network test-net \
-mysql mysql -h172.19.0.2 -uroot -p
-
-(on the admin console)
-	mysql> CREATE DATABASE customer;
-			  
-	mysql> ctrl + d
-
-
--> Copy war service file into Tomcat:
-$ docker cp warfiles/SOAP_Customer.war customers:/app
-
-
-##  setup.sh stops here!  ##
-
+###########################################
+### setup script will do the following: ###
+###########################################
+##
+## -> Install docker-compose:
+## $ sudo apt install -y docker-compose
+## $ sudo apt install -y docker-compose --fix-missing
+##
+##
+## -> change permissions for war files and gateway.config file
+## $ sudo chown 1001:root warfiles/* && sudo chmod 644 warfiles/*
+## $ sudo chown root:root gateway_config/gateway.config.yml
+## $ sudo chmod 644 gateway_config/gateway.config.yml
+##
+##
+## -> pull images and run demo containers in the background:
+## $ docker-compose up -d
+##
+##
+## -> Copy war service file into Tomcat:
+## $ docker cp warfiles/SOAP_Customer.war customers:/app
+## $ docker cp warfiles/SOAP_Product.war products:/app
+## $ docker cp warfiles/SOAP_Client.war client:/var/lib/jetty/webapps
+##
+##
+## -> restart the service containers to load war file
+## $ docker restart customers
+## $ docker restart products
+##
+##############################
+###  setup.sh stops here!  ###
+##############################
 
 -> access shell within node container and create guts:
 $ docker exec -it gateway /bin/bash
@@ -43,30 +50,27 @@ $ docker exec -it gateway /bin/bash
 $ docker cp gateway_config/gateway.config.yml gateway:/opt/gateway/config
 
 
--> change ownership of config file and start gateway:
+-> start the gateway:
 $ docker exec -it gateway /bin/bash
-	# cd /opt/gateway/config
-	# chown root:root gateway.config.yml
-	# chmod 644 gateway.config.yml
-	# cd ..
+	# cd /opt/gateway
 	# node .
 	# ctrl+z (pauses server)
 	# bg     (resumes server in background)
 	# ctrl+d (close connection while server continues to run)
 	
-	(Endpoint: http://localhost:8080/api/customer)
 
 
 *** The following is run on your localhost OS ***
--> Run the client on the localhost and connect to the backend services:
+-> Access the client container from a localhost web browser and connect to the backend services:
 
-    a. run client on Tomcat through Eclipse IDE on localhost:8080
-	    'http://localhost:8080/SOAP_Client/sampleCustomerPortProxy/TestClient.jsp'
+    a. enter the address of the client web app:
+	    http://localhost:8008/SOAP_Client/sampleCustomerPortProxy/TestClient.jsp
     
-    b. set Endpoint to the
-        'http://localhost:8080/api/customer'
+    b. from the client web interface, click the "Set Endpoint" button and enter:
+        http://172.19.0.6:8080/api/customer
 		
 	c. try adding a customer and getAllCustomers to see if it's using the service through the gateway.
 
-
+    d. access to the wsdl file has been enabled for demo purposes, and can be viewed at:
+	    http://localhost:8888/SOAP_Customer/ws/customers.wsdl
 
