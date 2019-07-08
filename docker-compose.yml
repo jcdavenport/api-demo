@@ -52,6 +52,15 @@ services:
       test-net:
         ipv4_address:  172.19.0.6
     entrypoint: tail -f /dev/null
+    
+  jetty:
+    image: jetty:latest
+    container_name: client
+    ports:
+      - "8008:8080"
+    networks:
+      test-net:
+        ipv4_address: 172.19.0.7
 
 networks:
   test-net:

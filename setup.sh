@@ -19,9 +19,13 @@ docker-compose up -d && sleep 5
 # Copy war service file into Tomcat:
 docker cp warfiles/SOAP_Customer.war customers:/app
 docker cp warfiles/SOAP_Product.war products:/app
+docker cp warfiles/SOAP_Client.war client:/var/lib/jetty/webapps
 
 docker restart customers
 
 docker restart products
 
 echo done...
+echo "Client is at http://127.0.0.1:8008"
+echo "Read instructions.txt to configure gateway" 
+echo "and set endpoints!"
